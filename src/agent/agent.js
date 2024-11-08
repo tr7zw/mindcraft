@@ -84,6 +84,12 @@ export class Agent {
 
                 this.bot.on('login', () => {
                     console.log('Logged in!');
+                    setTimeout(() => {
+                        this.bot.chat('/register Pizzatime123 Pizzatime123');
+                        setTimeout(() => {
+                            this.bot.chat('/server creative');
+                        }, 3000);
+                    }, 3000);
                 });
 
                 this.bot.once('spawn', async () => {
@@ -196,7 +202,7 @@ export class Agent {
         message = (await handleTranslation(to_translate)).trim() + " " + remainging;
         // newlines are interpreted as separate chats, which triggers spam filters. replace them with spaces
         message = message.replaceAll('\n', ' ');
-        return this.bot.chat(message);
+        return this.bot.chat('/g ' + message);
     }
 
     shutUp() {

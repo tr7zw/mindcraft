@@ -1,8 +1,8 @@
 export default 
 {
     "minecraft_version": "1.20.4", // supports up to 1.21.1
-    "host": "127.0.0.1", // or "localhost", "your.ip.address.here"
-    "port": 55916,
+    "host": "play.emergentgarden.com", // or "localhost", "your.ip.address.here"
+    "port": 25565,
     "auth": "offline", // or "microsoft"
     
     "profiles": [
@@ -22,7 +22,7 @@ export default
     "show_bot_views": false, // show bot's view in browser at localhost:3000, 3001...
 
     "allow_insecure_coding": false, // allows newAction command and model can write/run code on your computer. enable at own risk
-    "code_timeout_mins": 10, // minutes code is allowed to run. -1 for no timeout
+    "code_timeout_mins": -1, // minutes code is allowed to run. -1 for no timeout
 
     "max_messages": 15, // max number of messages to keep in context
     "max_commands": -1, // max number of commands to use in a response. -1 for no limit
