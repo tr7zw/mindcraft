@@ -273,6 +273,14 @@ const modes_list = [
         on: false,
         active: false,
         update: function (agent) { /* do nothing */ }
+    },
+    {
+        name: 'clean_movement',
+        description: 'Dont place or break blocks for non block-breaking/placing tasks.',
+        interrupts: [],
+        on: false,
+        active: false,
+        update: function (agent) { /* do nothing */ }
     }
 ];
 
