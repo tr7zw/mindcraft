@@ -724,6 +724,9 @@ export async function equip(bot, itemName) {
     else if (itemName.includes('helmet')) {
         await bot.equip(item, 'head');
     }
+    else if (itemName.includes('head')) {
+        await bot.equip(item, 'head');
+    }
     else if (itemName.includes('chestplate') || itemName.includes('elytra')) {
         await bot.equip(item, 'torso');
     }
@@ -734,6 +737,12 @@ export async function equip(bot, itemName) {
         await bot.equip(item, 'hand');
     }
     log(bot, `Equipped ${itemName}.`);
+    return true;
+}
+
+export async function unequip(bot, slot) {
+    await bot.unequip(slot);
+    log(bot, `Unequipped ${slot}.`);
     return true;
 }
 
