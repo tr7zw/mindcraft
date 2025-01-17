@@ -354,9 +354,9 @@ export async function defendSelf(bot, range=9) {
             try {
                 const movements = new pf.Movements(bot);
                 if(bot.modes.isOn('clean_movement')) {
-                    move.canDig = false;
-                    move.canPlaceOn = false;
-                    move.allow1by1towers = false;
+                    movements.canDig = false;
+                    movements.scafoldingBlocks = [];
+                    movements.allow1by1towers = false;
                 }
                 bot.pathfinder.setMovements(movements);
                 await bot.pathfinder.goto(new pf.goals.GoalFollow(enemy, 3.5), true);
@@ -367,7 +367,7 @@ export async function defendSelf(bot, range=9) {
                 const movements = new pf.Movements(bot);
                 if(bot.modes.isOn('clean_movement')) {
                     move.canDig = false;
-                    move.canPlaceOn = false;
+                    move.scafoldingBlocks = [];
                     move.allow1by1towers = false;
                 }
                 bot.pathfinder.setMovements(movements);
@@ -485,9 +485,9 @@ export async function pickupNearbyItems(bot) {
     while (nearestItem) {
         const movements = new pf.Movements(bot);
         if(bot.modes.isOn('clean_movement')) {
-            move.canDig = false;
-            move.canPlaceOn = false;
-            move.allow1by1towers = false;
+            movements.canDig = false;
+            movements.scafoldingBlocks = [];
+            movements.allow1by1towers = false;
         }
         bot.pathfinder.setMovements(movements);
         await bot.pathfinder.goto(new pf.goals.GoalFollow(nearestItem, 0.8), true);
@@ -529,7 +529,7 @@ export async function breakBlockAt(bot, x, y, z) {
         if (bot.entity.position.distanceTo(block.position) > 4.5) {
             let pos = block.position;
             let movements = new pf.Movements(bot);
-            movements.canPlaceOn = false;
+            movements.scafoldingBlocks = [];
             movements.allow1by1towers = false;
             bot.pathfinder.setMovements(movements);
             await bot.pathfinder.goto(new pf.goals.GoalNear(pos.x, pos.y, pos.z, 4));
@@ -702,9 +702,9 @@ export async function placeBlock(bot, blockType, x, y, z, placeOn='bottom', dont
         let pos = targetBlock.position;
         const movements = new pf.Movements(bot);
         if(bot.modes.isOn('clean_movement')) {
-            move.canDig = false;
-            move.canPlaceOn = false;
-            move.allow1by1towers = false;
+            movements.canDig = false;
+            movements.scafoldingBlocks = [];
+            movements.allow1by1towers = false;
         }
         bot.pathfinder.setMovements(movements);
         await bot.pathfinder.goto(new pf.goals.GoalNear(pos.x, pos.y, pos.z, 4));
@@ -991,7 +991,7 @@ export async function goToPosition(bot, x, y, z, min_distance=2) {
     const move = new pf.Movements(bot);
     if(bot.modes.isOn('clean_movement')) {
         move.canDig = false;
-        move.canPlaceOn = false;
+        move.scafoldingBlocks = [];
         move.allow1by1towers = false;
     }
     bot.pathfinder.setMovements(move);
@@ -1075,7 +1075,7 @@ export async function goToPlayer(bot, username, distance=3) {
     const move = new pf.Movements(bot);
     if(bot.modes.isOn('clean_movement')) {
         move.canDig = false;
-        move.canPlaceOn = false;
+        move.scafoldingBlocks = [];
         move.allow1by1towers = false;
     }
     bot.pathfinder.setMovements(move);
@@ -1101,7 +1101,7 @@ export async function followPlayer(bot, username, distance=4) {
     const move = new pf.Movements(bot);
     if(bot.modes.isOn('clean_movement')) {
         move.canDig = false;
-        move.canPlaceOn = false;
+        move.scafoldingBlocks = [];
         move.allow1by1towers = false;
     }
     bot.pathfinder.setMovements(move);
@@ -1140,9 +1140,9 @@ export async function moveAway(bot, distance) {
     let inverted_goal = new pf.goals.GoalInvert(goal);
     const movements = new pf.Movements(bot);
     if(bot.modes.isOn('clean_movement')) {
-        move.canDig = false;
-        move.canPlaceOn = false;
-        move.allow1by1towers = false;
+        movements.canDig = false;
+        movements.scafoldingBlocks = [];
+        movements.allow1by1towers = false;
     }
     bot.pathfinder.setMovements(movements);
 
@@ -1150,7 +1150,7 @@ export async function moveAway(bot, distance) {
         const move = new pf.Movements(bot);
         if(bot.modes.isOn('clean_movement')) {
             move.canDig = false;
-            move.canPlaceOn = false;
+            move.scafoldingBlocks = [];
             move.allow1by1towers = false;
         }
         const path = await bot.pathfinder.getPathTo(move, inverted_goal, 10000);
@@ -1183,9 +1183,9 @@ export async function moveAwayFromEntity(bot, entity, distance=16) {
     let inverted_goal = new pf.goals.GoalInvert(goal);
     const movements = new pf.Movements(bot);
     if(bot.modes.isOn('clean_movement')) {
-        move.canDig = false;
-        move.canPlaceOn = false;
-        move.allow1by1towers = false;
+        movements.canDig = false;
+        movements.scafoldingBlocks = [];
+        movements.allow1by1towers = false;
     }
     bot.pathfinder.setMovements(movements);
     await bot.pathfinder.goto(inverted_goal);
@@ -1208,9 +1208,9 @@ export async function avoidEnemies(bot, distance=16) {
         const inverted_goal = new pf.goals.GoalInvert(follow);
         const movements = new pf.Movements(bot);
         if(bot.modes.isOn('clean_movement')) {
-            move.canDig = false;
-            move.canPlaceOn = false;
-            move.allow1by1towers = false;
+            movements.canDig = false;
+            movements.scafoldingBlocks = [];
+            movements.allow1by1towers = false;
         }
         bot.pathfinder.setMovements(movements);
         bot.pathfinder.setGoal(inverted_goal, true);
@@ -1361,9 +1361,9 @@ export async function tillAndSow(bot, x, y, z, seedType=null) {
         let pos = block.position;
         const movements = new pf.Movements(bot);
         if(bot.modes.isOn('clean_movement')) {
-            move.canDig = false;
-            move.canPlaceOn = false;
-            move.allow1by1towers = false;
+            movements.canDig = false;
+            movements.scafoldingBlocks = [];
+            movements.allow1by1towers = false;
         }
         bot.pathfinder.setMovements(movements);
         await bot.pathfinder.goto(new pf.goals.GoalNear(pos.x, pos.y, pos.z, 4));
@@ -1413,9 +1413,9 @@ export async function activateNearestBlock(bot, type) {
         let pos = block.position;
         const movements = new pf.Movements(bot);
         if(bot.modes.isOn('clean_movement')) {
-            move.canDig = false;
-            move.canPlaceOn = false;
-            move.allow1by1towers = false;
+            movements.canDig = false;
+            movements.scafoldingBlocks = [];
+            movements.allow1by1towers = false;
         }
         bot.pathfinder.setMovements(movements);
         await bot.pathfinder.goto(new pf.goals.GoalNear(pos.x, pos.y, pos.z, 4));
