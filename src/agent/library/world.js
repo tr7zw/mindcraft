@@ -324,6 +324,18 @@ export function getNearbyPlayerNames(bot) {
     return found;
 }
 
+export function getNearbyPlayerInfo(bot) {
+    let players = getNearbyPlayers(bot, 64);
+    let found = [];
+    for (let i = 0; i < players.length; i++) {
+        if (!found.includes(players[i].username) && players[i].username != bot.username) {
+            // push entire player data as String
+            found.push(JSON.stringify(players[i]));
+        }
+    }
+    return found;
+}
+
 
 export function getNearbyBlockTypes(bot, distance=16) {
     /**

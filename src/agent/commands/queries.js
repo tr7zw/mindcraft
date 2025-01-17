@@ -68,18 +68,7 @@ export const queryList = [
         description: "Get your bot's inventory.",
         perform: function (agent) {
             let bot = agent.bot;
-            let inventory = world.getInventoryCounts(bot);
-            let res = 'INVENTORY';
-            for (const item in inventory) {
-                if (inventory[item] && inventory[item] > 0)
-                    res += `\n- ${item}: ${inventory[item]}`;
-            }
-            if (res === 'INVENTORY') {
-                res += ': Nothing';
-            }
-            else if (agent.bot.game.gameMode === 'creative') {
-                res += '\n(You have infinite items in creative mode. You do not need to gather resources!!)';
-            }
+            let res = 'INVENTORY: ' + JSON.stringify(bot.inventory) + '\n';
 
             let helmet = bot.inventory.slots[5];
             let chestplate = bot.inventory.slots[6];
@@ -161,6 +150,31 @@ export const queryList = [
             if (res == 'NEARBY_ENTITIES') {
                 res += ': none';
             }
+            return pad(res);
+        }
+    },
+    {
+        name: "!nearbyPlayers",
+        description: "Get the nearby player data, including position, equipment, held item, and health.",
+        perform: function (agent) {
+            let bot = agent.bot;
+            let res = 'NEARBY_PLAYERS';
+            let players = world.getNearbyPlayerInfo(bot);
+
+            for (const player of players) {
+                res += `\n- Player: ${player}`;
+            }
+
+            return pad(res);
+        }
+    },
+    {
+        name: "!ownData",
+        description: "Check the bots data, including position, equipment, inventory, held item, and nbt.",
+        perform: function (agent) {
+            let bot = agent.bot;
+            let res = 'OWN_DATA: ' + JSON.stringify(agent.bot.entity) + "\nInventory: " + JSON.stringify(agent.bot.inventory);
+
             return pad(res);
         }
     },
