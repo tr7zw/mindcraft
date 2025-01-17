@@ -287,8 +287,10 @@ export class Agent {
 
                 if (settings.verbose_commands) {
                     this.routeResponse(source, res);
-                }
-                else { // only output command name
+                }else if (settings.hide_commands) {
+                    let pre_message = res.substring(0, res.indexOf(command_name)).trim();
+                    this.routeResponse(source, pre_message);
+                } else { // only output command name
                     let pre_message = res.substring(0, res.indexOf(command_name)).trim();
                     let chat_message = `*used ${command_name.substring(1)}*`;
                     if (pre_message.length > 0)
