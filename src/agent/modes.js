@@ -251,6 +251,12 @@ const modes_list = [
                 let isbaby = entity.type !== 'player' && entity.metadata[16];
                 let height = isbaby ? entity.height/2 : entity.height;
                 agent.bot.lookAt(entity.position.offset(0, height, 0));
+                // if entity.crouching is not undefined, set crouching to match entity
+                if (entity.crouching !== undefined) {
+                    agent.bot.setControlState('sneak', entity.crouching);
+                }
+            } else {
+                agent.bot.clearControlStates();
             }
             if (!entity_in_view)
                 this.last_entity = null;
