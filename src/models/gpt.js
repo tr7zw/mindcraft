@@ -54,6 +54,10 @@ export class GPT {
     }
 
     async embed(text) {
+        // limit text to 8000 tokens
+        if (text.length > 8000) {
+            text = text.slice(0, 8000);
+        }
         const embedding = await this.openai.embeddings.create({
             model: this.model_name || "text-embedding-3-small",
             input: text,
