@@ -65,10 +65,47 @@ export const queryList = [
     },
     {
         name: "!inventory",
-        description: "Get your bot's inventory.",
+        description: "Get your bot's inventory with all data. Only use when you need all the data like enchantments/head owners.",
         perform: function (agent) {
             let bot = agent.bot;
-            let res = 'INVENTORY: ' + JSON.stringify(bot.inventory) + '\n';
+            let res = 'ALL INVENTORY DATA: ' + JSON.stringify(bot.inventory) + '\n';
+
+            let helmet = bot.inventory.slots[5];
+            let chestplate = bot.inventory.slots[6];
+            let leggings = bot.inventory.slots[7];
+            let boots = bot.inventory.slots[8];
+            res += '\nWEARING: ';
+            if (helmet)
+                res += `\nHead: ${helmet.name}`;
+            if (chestplate)
+                res += `\nTorso: ${chestplate.name}`;
+            if (leggings)
+                res += `\nLegs: ${leggings.name}`;
+            if (boots)
+                res += `\nFeet: ${boots.name}`;
+            if (!helmet && !chestplate && !leggings && !boots)
+                res += 'Nothing';
+
+            return pad(res);
+        }
+    },
+    {
+        name: "!simpleinventory",
+        description: "Get your bot's inventory data without attributes or other data. Use when you only need the item types/amounts.",
+        perform: function (agent) {
+            let bot = agent.bot;
+            let inventory = world.getInventoryCounts(bot);
+            let res = 'SIMPLIFIED INVENTORY';
+            for (const item in inventory) {
+                if (inventory[item] && inventory[item] > 0)
+                    res += `\n- ${item}: ${inventory[item]}`;
+            }
+            if (res === 'INVENTORY') {
+                res += ': Nothing';
+            }
+            else if (agent.bot.game.gameMode === 'creative') {
+                res += '\n(You have infinite items in creative mode. You do not need to gather resources!!)';
+            }
 
             let helmet = bot.inventory.slots[5];
             let chestplate = bot.inventory.slots[6];

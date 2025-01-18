@@ -194,7 +194,7 @@ export const actionsList = [
     },
     {
         name: '!unequip',
-        description: 'Unequip all items.',
+        description: 'Unequip a slot.',
         params: { 'slot': { type: 'string', description: 'The slot to unequip: legs/feet/head/torso/off-hand/hand' } },
         perform: runAsAction(async (agent, slot) => {
             await skills.unequip(agent.bot, slot);
