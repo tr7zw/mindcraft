@@ -144,6 +144,25 @@ export class Agent {
         this.bot.on('whisper', respondFunc);
         if (settings.profiles.length === 1)
             this.bot.on('chat', respondFunc);
+        this.bot.on('messagestr', (message, messagePosition, jsonMsg, sender, verified) => {
+            if(jsonMsg.translate && jsonMsg.translate !== 'chat.type.text') {
+                console.log('Received message:', message);
+                this.history.add('system', "Received Server Message: " + message);
+            }
+        });
+        this.bot.on('entityHurt', (entity) => {
+            if(entity === this.bot.entity) {
+                this.handleMessage('system', "You just took damage. Health: " + this.bot.health, 2);
+            } else if (entity.name) {
+                //this.history.add('system', "Entity took damage: " + entity.name);
+            }
+        });
+        this.bot.on('playerCollect', (collector, collected) => {
+            if(collector === this.bot.entity) {
+                this.handleMessage('system', "You just picked up: " + JSON.stringify(collected.getDroppedItem()) + ". Consider saying nothing if its not interesting.", 2);
+            }
+        });
+
 
         // Set up auto-eat
         this.bot.autoEat.options = {
