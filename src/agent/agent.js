@@ -39,7 +39,7 @@ export class Agent {
             console.log('Initializing npc controller...');
             this.npc = new NPCContoller(this);
             console.log('Initializing memory bank...');
-            this.memory_bank = new MemoryBank();
+            this.memory_bank = new MemoryBank(this, 'locations');
             console.log('Initializing self prompter...');
             this.self_prompter = new SelfPrompter(this);
             convoManager.initAgent(this);            
@@ -60,6 +60,7 @@ export class Agent {
             let save_data = null;
             if (load_mem) {
                 save_data = this.history.load();
+                this.memory_bank.load();
             }
 
             this.bot.on('login', () => {
@@ -274,6 +275,7 @@ export class Agent {
         // Handle other user messages
         await this.history.add(source, message);
         this.history.save();
+        this.memory_bank.save();
 
         if (!self_prompt && this.self_prompter.on) // message is from user during self-prompting
             max_responses = 1; // force only respond to this message, then let self-prompting take over
@@ -334,6 +336,7 @@ export class Agent {
             }
             
             this.history.save();
+            this.memory_bank.save();
         }
 
         return used_command;
@@ -482,6 +485,7 @@ export class Agent {
         this.history.add('system', msg);
         this.bot.chat(code > 1 ? 'Restarting.': 'Exiting.');
         this.history.save();
+        this.memory_bank.save();
         process.exit(code);
     }
 
