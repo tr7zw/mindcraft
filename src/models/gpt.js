@@ -40,6 +40,7 @@ export class GPT {
                 throw new Error('Context length exceeded'); 
             console.log('Received.')
             res = completion.choices[0].message.content;
+            console.log('Cached Prompt Tokens: ', completion.usage.prompt_tokens_details.cached_tokens + '/' + completion.usage.total_tokens);
         }
         catch (err) {
             if ((err.message == 'Context length exceeded' || err.code == 'context_length_exceeded') && turns.length > 1) {
